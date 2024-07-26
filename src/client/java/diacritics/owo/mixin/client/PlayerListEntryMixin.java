@@ -6,12 +6,39 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
+import diacritics.owo.DynamicSkins;
+import diacritics.owo.scripting.Data;
+import diacritics.owo.scripting.Skin;
+import javax.script.ScriptException;
 
 @Mixin(value = PlayerListEntry.class, priority = Integer.MAX_VALUE)
 public abstract class PlayerListEntryMixin {
+  private Boolean stopped = false;
+
   @Inject(method = "getSkinTexture", at = @At("HEAD"), cancellable = true)
   public void onGetSkinTexture(CallbackInfoReturnable<Identifier> cir) {
-    cir.setReturnValue(Identifier.of("minecraft", "textures/entity/zombie/drowned_outer_layer.png"));
+    if (!this.stopped) {
+      try {
+        Skin skin = new Skin();
+
+        DynamicSkins.scriptEngine.put("data", new Data());
+        DynamicSkins.scriptEngine.put("skin", skin);
+
+        DynamicSkins.scriptEngine.eval(DynamicSkins.config.read());
+
+        if (skin.get() != null) {
+          Identifier identifier = Identifier.tryParse(skin.get());
+
+          if (identifier != null) {
+            cir.setReturnValue(identifier);
+          }
+        }
+      } catch (ScriptException error) {
+        DynamicSkins.LOGGER.warn(
+            "encountered an error while evaluating the configuration! dynamic skins will stop, and you must relaunch your client to restart it",
+            error);
+        this.stopped = true;
+      }
+    }
   }
 }
-
