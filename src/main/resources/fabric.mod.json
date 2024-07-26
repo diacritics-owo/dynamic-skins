@@ -3,21 +3,20 @@
   "id": "dynamic-skins",
   "version": "${version}",
   "name": "Dynamic Skins",
-  "description": "This is an example description! Tell everyone what your mod is about!",
-  "authors": ["Me!"],
+  "description": "Set your skin dynamically based on conditions (client-only for now)",
+  "authors": ["diacritics-owo"],
   "contact": {
     "homepage": "https://fabricmc.net/",
     "sources": "https://github.com/FabricMC/fabric-example-mod"
   },
-  "license": "CC0-1.0",
+  "license": "MIT",
   "icon": "assets/dynamic-skins/icon.png",
-  "environment": "*",
+  "environment": "client",
   "entrypoints": {
     "main": ["diacritics.owo.DynamicSkins"],
     "client": ["diacritics.owo.DynamicSkinsClient"]
   },
   "mixins": [
-    "dynamic-skins.mixins.json",
     {
       "config": "dynamic-skins.client.mixins.json",
       "environment": "client"
@@ -28,8 +27,5 @@
     "minecraft": "~1.20.1",
     "java": ">=17",
     "fabric-api": "*"
-  },
-  "suggests": {
-    "another-mod": "*"
   }
 }
