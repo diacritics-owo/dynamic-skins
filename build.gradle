@@ -12,6 +12,7 @@ base {
 
 repositories {
 	mavenCentral()
+	maven { url "https://maven.terraformersmc.com/releases/" }
 }
 
 loom {
@@ -35,8 +36,11 @@ dependencies {
 	modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
 
 	// Rhino
-	implementation 'org.mozilla:rhino:1.7.15'
-	implementation 'org.mozilla:rhino-engine:1.7.15'
+	implementation "org.mozilla:rhino:${project.rhino_version}"
+	implementation "org.mozilla:rhino-engine:${project.rhino_version}"
+
+	// Mod Menu
+	modImplementation "com.terraformersmc:modmenu:${project.modmenu_version}"
 }
 
 processResources {

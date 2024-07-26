@@ -13,11 +13,9 @@ import javax.script.ScriptException;
 
 @Mixin(value = PlayerListEntry.class, priority = Integer.MAX_VALUE)
 public abstract class PlayerListEntryMixin {
-  private Boolean stopped = false;
-
   @Inject(method = "getSkinTexture", at = @At("HEAD"), cancellable = true)
   public void onGetSkinTexture(CallbackInfoReturnable<Identifier> cir) {
-    if (!this.stopped) {
+    if (DynamicSkins.dynamicSkinsError == null) {
       try {
         Skin skin = new Skin();
 
@@ -35,9 +33,9 @@ public abstract class PlayerListEntryMixin {
         }
       } catch (ScriptException error) {
         DynamicSkins.LOGGER.warn(
-            "encountered an error while evaluating the configuration! dynamic skins will stop, and you must relaunch your client to restart it",
+            "encountered an error while evaluating the configuration! dynamic skins will stop and you must be restarted from the mod menu screen",
             error);
-        this.stopped = true;
+        DynamicSkins.dynamicSkinsError = error;
       }
     }
   }

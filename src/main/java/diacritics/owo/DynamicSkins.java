@@ -8,6 +8,7 @@ import org.slf4j.LoggerFactory;
 
 import javax.script.ScriptEngine;
 import javax.script.ScriptEngineManager;
+import javax.script.ScriptException;
 
 public class DynamicSkins implements ModInitializer {
 	public static final String MOD_ID = "dynamic-skins";
@@ -17,6 +18,8 @@ public class DynamicSkins implements ModInitializer {
 	public static final ScriptEngineManager scriptEngineManager =
 			Scripting.createScriptEngineManager();
 	public static final ScriptEngine scriptEngine = Scripting.createScriptEngine(scriptEngineManager);
+
+	public static ScriptException dynamicSkinsError = null;
 
 	@Override
 	public void onInitialize() {
