@@ -26,6 +26,10 @@ loom {
 	}
 }
 
+configurations {
+	distribute
+}
+
 dependencies {
 	// To change the versions see the gradle.properties file
 	minecraft "com.mojang:minecraft:${project.minecraft_version}"
@@ -37,10 +41,14 @@ dependencies {
 
 	// Rhino
 	implementation "org.mozilla:rhino:${project.rhino_version}"
-	implementation "org.mozilla:rhino-engine:${project.rhino_version}"
 
 	// Mod Menu
 	modImplementation "com.terraformersmc:modmenu:${project.modmenu_version}"
+
+	// JSON
+	implementation 'org.json:json:20240303'
+
+	distribute "org.mozilla:rhino:${project.rhino_version}"
 }
 
 processResources {
@@ -68,6 +76,10 @@ java {
 jar {
 	from("LICENSE") {
 		rename { "${it}_${project.base.archivesName.get()}"}
+	}
+
+	from {
+		configurations.distribute.collect { it.isDirectory() ? it : zipTree(it) }
 	}
 }
 

@@ -1,13 +1,49 @@
 package diacritics.owo.scripting;
 
-public class Skin {
-  private String skin = null;
+import org.mozilla.javascript.ScriptableObject;
+import org.mozilla.javascript.annotations.JSFunction;
+import org.mozilla.javascript.annotations.JSGetter;
 
-  public String get() {
-    return this.skin;
+public class Skin extends ScriptableObject {
+  private SkinContainer container = null;
+
+  public Skin() {
+    this.container = new SkinContainer();
   }
 
-  public void set(String skin) {
-    this.skin = skin;
+  public Skin(SkinContainer container) {
+    this.container = container;
+  }
+
+  @JSGetter
+  public String value() {
+    return this.container.value();
+  }
+
+  @JSFunction
+  public void set(String value) {
+    this.container.set(value);
+  }
+
+  @Override
+  public String getClassName() {
+    return "Skin";
+  }
+
+  public static class SkinContainer extends ScriptableObject {
+    private String value = null;
+
+    public String value() {
+      return this.value;
+    }
+
+    public void set(String value) {
+      this.value = value;
+    }
+
+    @Override
+    public String getClassName() {
+      return "SkinContainer";
+    }
   }
 }

@@ -1,53 +1,48 @@
 package diacritics.owo.scripting;
 
-import net.minecraft.client.MinecraftClient;
+import org.json.JSONObject;
+import com.mojang.authlib.GameProfile;
 import net.minecraft.client.network.AbstractClientPlayerEntity;
+import net.minecraft.entity.EquipmentSlot;
+import net.minecraft.registry.Registries;
 
 public class Data {
-  private ClientData client = new ClientData();
-
-  public ClientData client() {
-    return this.client;
+  public static JSONObject buildData(JSONObject clientData, JSONObject targetData) {
+    return new JSONObject().put("client", clientData).put("target", targetData);
   }
 
-  public static class ClientData {
-    private MinecraftClient client = MinecraftClient.getInstance();
-    private PlayerData player = new PlayerData(client.player);
-
-    public PlayerData player() {
-      return this.player;
-    }
+  public static JSONObject buildClientData(JSONObject playerData) {
+    return new JSONObject().put("player", playerData);
   }
 
-  public static class PlayerData {
-    private AbstractClientPlayerEntity abstractClientPlayerEntity;
+  public static JSONObject buildPlayerData(AbstractClientPlayerEntity abstractClientPlayerEntity,
+      JSONObject profileData) {
+    return new JSONObject().put("profile", profileData).put("equipment", buildEquipmentData(abstractClientPlayerEntity))
+        .put("isTouchingWater", abstractClientPlayerEntity.isTouchingWater())
+        .put("isClimbing", abstractClientPlayerEntity.isClimbing())
+        .put("isSwimming", abstractClientPlayerEntity.isSwimming())
+        .put("isSneaking", abstractClientPlayerEntity.isSneaking())
+        .put("isOnFire", abstractClientPlayerEntity.isOnFire())
+        .put("isInLava", abstractClientPlayerEntity.isInLava())
+        .put("isSprinting", abstractClientPlayerEntity.isSprinting());
+  }
 
-    public PlayerData(AbstractClientPlayerEntity abstractClientPlayerEntity) {
-      this.abstractClientPlayerEntity = abstractClientPlayerEntity;
-    }
+  public static JSONObject buildProfileData(GameProfile profile) {
+    return new JSONObject().put("username", profile.getName());
+  }
 
-    public Boolean isTouchingWater() {
-      return this.abstractClientPlayerEntity.isTouchingWater();
-    }
+  public static JSONObject buildEquipmentData(
+      AbstractClientPlayerEntity abstractClientPlayerEntity) {
+    return new JSONObject()
+        .put("head", Registries.ITEM.getId(abstractClientPlayerEntity.getEquippedStack(EquipmentSlot.HEAD).getItem()))
+        .put("chest", Registries.ITEM.getId(abstractClientPlayerEntity.getEquippedStack(EquipmentSlot.CHEST).getItem()))
+        .put("legs", Registries.ITEM.getId(abstractClientPlayerEntity.getEquippedStack(EquipmentSlot.LEGS).getItem()))
+        .put("feet", Registries.ITEM.getId(abstractClientPlayerEntity.getEquippedStack(EquipmentSlot.FEET).getItem()))
+        .put("mainhand", Registries.ITEM.getId(abstractClientPlayerEntity.getEquippedStack(EquipmentSlot.MAINHAND).getItem()))
+        .put("offhand", Registries.ITEM.getId(abstractClientPlayerEntity.getEquippedStack(EquipmentSlot.OFFHAND).getItem()));
+  }
 
-    public Boolean isSwimming() {
-      return this.abstractClientPlayerEntity.isSwimming();
-    }
-
-    public Boolean isSneaking() {
-      return this.abstractClientPlayerEntity.isSneaking();
-    }
-
-    public Boolean isOnFire() {
-      return this.abstractClientPlayerEntity.isOnFire();
-    }
-
-    public Boolean isInLava() {
-      return this.abstractClientPlayerEntity.isInLava();
-    }
-
-    public Boolean isSprinting() {
-      return this.abstractClientPlayerEntity.isSprinting();
-    }
+  public static JSONObject buildTargetData(JSONObject profileData) {
+    return new JSONObject().put("profile", profileData);
   }
 }
