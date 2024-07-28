@@ -12,7 +12,7 @@ Example configuration:
 
 ```javascript
 if (
-  data.target.profile.username === data.client.player.username && // Only replace your own skin - without this, you'll see that everyone's skin changes when you swim
+  data.target.profile.username === data.client.player.profile.username && // Only replace your own skin - without this, you'll see that everyone's skin changes when you swim
   data.client.player.isTouchingWater &&
   data.client.player.isSwimming
 ) {

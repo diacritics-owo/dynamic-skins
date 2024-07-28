@@ -64,7 +64,7 @@ public abstract class PlayerListEntryMixin {
         JSONObject data = Data.buildData(
             Data.buildClientData(Data.buildPlayerData(client.player,
                 Data.buildProfileData(client.player.getGameProfile()))),
-            Data.buildTargetData(Data.buildTargetData(Data.buildProfileData(this.profile))));
+            Data.buildTargetData(Data.buildProfileData(this.profile)));
         cx.evaluateString(scope, "const data = " + data + "; deepFreeze(data);", null, 0, null);
 
         scope.put("deepFreeze", scope, Context.getUndefinedValue());
@@ -72,7 +72,6 @@ public abstract class PlayerListEntryMixin {
         cx.evaluateString(scope, DynamicSkins.config.read(), null, 0, null);
 
         if (skinContainer.value() != null) {
-          System.out.println(skinContainer.value());
           Identifier identifier = Identifier.tryParse(skinContainer.value());
 
           if (identifier != null) {
