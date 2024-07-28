@@ -46,9 +46,10 @@ dependencies {
 	modImplementation "com.terraformersmc:modmenu:${project.modmenu_version}"
 
 	// JSON
-	implementation 'org.json:json:20240303'
+	implementation "org.json:json:${project.json_version}"
 
 	distribute "org.mozilla:rhino:${project.rhino_version}"
+	distribute "org.json:json:${project.json_version}"
 }
 
 processResources {

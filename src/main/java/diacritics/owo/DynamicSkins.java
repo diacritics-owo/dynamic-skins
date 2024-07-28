@@ -8,7 +8,7 @@ import org.slf4j.LoggerFactory;
 public class DynamicSkins implements ModInitializer {
 	public static final String MOD_ID = "dynamic-skins";
 	public static final Logger LOGGER = LoggerFactory.getLogger(MOD_ID);
-	public static final Config config = new Config("dynamic-skins", "hello");
+	public static final Config config = new Config("dynamic-skins", "");
 
 	public static Exception dynamicSkinsError = null;
 
