@@ -9,9 +9,9 @@ import org.mozilla.javascript.Scriptable;
 import org.mozilla.javascript.ScriptableObject;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
-import org.spongepowered.asm.mixin.injection.At;
-import org.spongepowered.asm.mixin.injection.Inject;
-import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
+
+import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
+import com.llamalad7.mixinextras.injector.wrapmethod.WrapMethod;
 import com.mojang.authlib.GameProfile;
 import diacritics.owo.DynamicSkins;
 import diacritics.owo.scripting.Data;
@@ -23,8 +23,9 @@ public abstract class PlayerListEntryMixin {
   @Shadow
   private GameProfile profile;
 
-  @Inject(method = "getSkinTexture", at = @At("HEAD"), cancellable = true)
-  public void onGetSkinTexture(CallbackInfoReturnable<Identifier> cir) {
+  // @Inject(method = "getSkinTexture", at = @At("HEAD"), cancellable = true)
+  @WrapMethod(method =  "getSkinTexture")
+  public Identifier onGetSkinTexture(Operation<Identifier> original) {
     if (DynamicSkins.dynamicSkinsError == null) {
       Context cx = Context.enter();
       cx.getWrapFactory().setJavaPrimitiveWrap(false);
@@ -75,7 +76,7 @@ public abstract class PlayerListEntryMixin {
           Identifier identifier = Identifier.tryParse(skinContainer.value());
 
           if (identifier != null) {
-            cir.setReturnValue(identifier);
+            return identifier;
           }
         }
       } catch (Exception error) {
@@ -87,5 +88,7 @@ public abstract class PlayerListEntryMixin {
 
       Context.exit();
     }
+
+    return original.call();
   }
 }
