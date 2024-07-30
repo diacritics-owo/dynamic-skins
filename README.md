@@ -24,11 +24,11 @@ This configuration will be run once per player rendered per frame.
 
 ## Configuration Cache
 
-The configuration is read once on mod initialisation and cached in memory, and updates to it will not be read unless you open the Mod Menu configuration page for Dynamic Skins and click "Reload configuration", upon which it will be read and cached again. Every time you update the configuration, you must reload it for it to apply.
+The configuration is read once on mod initialisation and cached in memory, and updates to it will not be read unless you run `/dynamic-skins cache reload`. Alternatively, you can open the Mod Menu configuration page for Dynamic Skins and click "Reload configuration". Every time you update the configuration, you must reload it for it to apply.
 
 ## Errors
 
-If an error is encountered when Dynamic Skins executes the configuration, the error and a message stating that Dynamic Skins has stopped will be logged. To start it again, you must open the Mod Menu page (or reopen if it was already open) and click the "Restart" button that should now be visible. Note that restarting will reload the configuration.
+If an error is encountered when Dynamic Skins executes the configuration, the error and a message stating that Dynamic Skins has stopped will be logged. You can run the command `/dynamic-skins error` to display the error. To start it again, you must either run `/dynamic-skins error reset` or open the Mod Menu page (reopen if it was already open) and click the "Restart" button that should now be visible. Note that restarting will reload the configuration.
 
 ## Custom Skins
 
