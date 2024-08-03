@@ -6,16 +6,25 @@ Set your skin dynamically based on conditions (client-only for now)
 
 After installing the mod and launching the game once, a file called `dynamic-skins.js` will be written to the configuration folder (if you don't know where that is, Dynamic Skins will helpfully tell you the file path in the logs on the first launch).
 
-Dynamic Skins exposes a very simple JavaScript API that allows you to replace player skins based on conditions that you define. This API is relatively limited right now, but that will change in the future. **Note that the skin replacement only takes place on _your_ client. Only you will see the modified skins.**
+Dynamic Skins exposes a very simple JavaScript API that allows you to replace player skins based on conditions that you define. **Note that the skin replacement only takes place on _your_ client. Only you will see the modified skins.** Also note that this only changes skins in-game, so skin selector mods or the tab list/social interactions screen will not be affected.
 
 Example configuration:
 
 ```javascript
 if (
-  data.target.profile.username === data.client.player.profile.username && // Only replace your own skin - without this, you'll see that everyone's skin changes when you swim
+  data.target.player.profile.username === data.client.player.profile.username && // Only replace your own skin - without this, you'll see that everyone's skin changes when you swim
   data.client.player.isTouchingWater &&
   data.client.player.isSwimming
 ) {
+  skin.set("minecraft:textures/entity/zombie/drowned_outer_layer.png");
+}
+```
+
+Another:
+
+```javascript
+// When anyone holds a trident, their skin will be changed
+if (data.target.player.equipment.mainhand === "minecraft:trident") {
   skin.set("minecraft:textures/entity/zombie/drowned_outer_layer.png");
 }
 ```
@@ -54,19 +63,27 @@ You could then use `skin.set('skins:my_skin.png')`.
 
 #### `set(value: string)`
 
+---
+
 ### `Data`
 
 #### `client: ClientData`
 
 #### `target: TargetData`
 
+---
+
 ### `ClientData`
 
 #### `player: PlayerData`
 
+---
+
 ### `TargetData`
 
-#### `profile: ProfileData`
+#### `player: PlayerData`
+
+---
 
 ### `PlayerData`
 
@@ -88,9 +105,13 @@ You could then use `skin.set('skins:my_skin.png')`.
 
 #### `isSprinting: boolean`
 
+---
+
 ### `ProfileData`
 
 #### `username: string`
+
+---
 
 ### `EquipmentData`
 
