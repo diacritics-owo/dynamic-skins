@@ -55,13 +55,40 @@ Example resource pack structure:
 
 You could then use `skin.set('skins:my_skin.png')`.
 
+## Advanced Usage
+
+Dynamic Skins allows you to set a state that persists across both players and frames. This allows you to make animated skins by cycling through different frames. Please note that framerates drop significantly with long cycles.
+
+Example:
+
+```javascript
+if (
+  data.target.player.profile.username === data.client.player.profile.username
+) {
+  state.set(
+    "cycle",
+    ((state.get("cycle") === null ? 0 : state.get("cycle")) % 32) + 1
+  );
+
+  const s = state.get("cycle").toString();
+
+  skin.set(`skins:skin${"0".repeat(2 - s.length)}${s}.png`);
+}
+```
+
+The above example will cycle your skin continuously from `skins:01.png` through `skins:32.png`
+
+It is possible to cycle skins without state by using `skin.value`, but it will be much more tedious and will still have a performance impact.
+
+<img src="assets/gradient-skin.gif" alt="a gif of the skin cycling through different gradients" />
+
 ## API
 
 ### `Skin`
 
-#### `value(): string`
+#### `value: string`
 
-#### `set(value: string)`
+#### `set(value: string): void`
 
 ---
 
@@ -126,3 +153,11 @@ You could then use `skin.set('skins:my_skin.png')`.
 #### `mainhand: string`
 
 #### `offhand: string`
+
+---
+
+### `State`
+
+#### `set(key: string, value: any): void`
+
+#### `get(key: string): any`

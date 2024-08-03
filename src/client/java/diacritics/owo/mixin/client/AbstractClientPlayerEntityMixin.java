@@ -13,10 +13,14 @@ import com.llamalad7.mixinextras.injector.wrapmethod.WrapMethod;
 import diacritics.owo.DynamicSkins;
 import diacritics.owo.scripting.Data;
 import diacritics.owo.scripting.Skin;
+import diacritics.owo.scripting.State;
 import diacritics.owo.scripting.Skin.SkinContainer;
+import diacritics.owo.scripting.State.StateContainer;
 
 @Mixin(value = AbstractClientPlayerEntity.class, priority = Integer.MAX_VALUE)
 public abstract class AbstractClientPlayerEntityMixin {
+  private static final StateContainer stateContainer = new StateContainer();
+
   // @Inject(method = "getSkinTexture", at = @At("HEAD"), cancellable = true)
   @WrapMethod(method = "getSkinTexture")
   public Identifier onGetSkinTexture(Operation<Identifier> original) {
@@ -29,10 +33,14 @@ public abstract class AbstractClientPlayerEntityMixin {
       try {
         Scriptable scope = cx.initSafeStandardObjects();
         ScriptableObject.defineClass(scope, Skin.class);
+        ScriptableObject.defineClass(scope, State.class);
 
         SkinContainer skinContainer = new SkinContainer();
         Scriptable skin = cx.newObject(scope, "Skin", new Object[] { skinContainer });
         scope.put("skin", scope, skin);
+
+        Scriptable state = cx.newObject(scope, "State", new Object[] { stateContainer });
+        scope.put("state", scope, state);
 
         // TODO: neater way to do this?
 
