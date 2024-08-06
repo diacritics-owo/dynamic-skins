@@ -1,7 +1,7 @@
 package diacritics.owo.scripting;
 
-import org.mozilla.javascript.ScriptableObject;
-import org.mozilla.javascript.annotations.JSFunction;
+import dev.latvian.mods.rhino.ScriptableObject;
+import dev.latvian.mods.rhino.annotations.JSFunction;
 import java.util.Map;
 import java.util.HashMap;
 

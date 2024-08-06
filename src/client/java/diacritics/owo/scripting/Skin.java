@@ -1,8 +1,8 @@
 package diacritics.owo.scripting;
 
-import org.mozilla.javascript.ScriptableObject;
-import org.mozilla.javascript.annotations.JSFunction;
-import org.mozilla.javascript.annotations.JSGetter;
+import dev.latvian.mods.rhino.ScriptableObject;
+import dev.latvian.mods.rhino.annotations.JSFunction;
+import dev.latvian.mods.rhino.annotations.JSGetter;
 
 public class Skin extends ScriptableObject {
   private SkinContainer container = null;

@@ -4,9 +4,9 @@ import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.network.AbstractClientPlayerEntity;
 import net.minecraft.util.Identifier;
 import org.json.JSONObject;
-import org.mozilla.javascript.Context;
-import org.mozilla.javascript.Scriptable;
-import org.mozilla.javascript.ScriptableObject;
+import dev.latvian.mods.rhino.Context;
+import dev.latvian.mods.rhino.Scriptable;
+import dev.latvian.mods.rhino.ScriptableObject;
 import org.spongepowered.asm.mixin.Mixin;
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapmethod.WrapMethod;
@@ -32,15 +32,15 @@ public abstract class AbstractClientPlayerEntityMixin {
 
       try {
         Scriptable scope = cx.initSafeStandardObjects();
-        ScriptableObject.defineClass(scope, Skin.class);
-        ScriptableObject.defineClass(scope, State.class);
+        ScriptableObject.defineClass(scope, Skin.class, cx);
+        ScriptableObject.defineClass(scope, State.class, cx);
 
         SkinContainer skinContainer = new SkinContainer();
         Scriptable skin = cx.newObject(scope, "Skin", new Object[] { skinContainer });
-        scope.put("skin", scope, skin);
+        scope.put(cx, "skin", scope, skin);
 
         Scriptable state = cx.newObject(scope, "State", new Object[] { stateContainer });
-        scope.put("state", scope, state);
+        scope.put(cx, "state", scope, state);
 
         // TODO: neater way to do this?
 
@@ -69,7 +69,7 @@ public abstract class AbstractClientPlayerEntityMixin {
             Data.buildTargetData(Data.buildPlayerData((AbstractClientPlayerEntity) (Object) this)));
         cx.evaluateString(scope, "const data = " + data + "; deepFreeze(data);", null, 0, null);
 
-        scope.put("deepFreeze", scope, Context.getUndefinedValue());
+        scope.put(cx, "deepFreeze", scope, Context.getUndefinedValue());
 
         cx.evaluateString(scope, DynamicSkins.config.read(), null, 0, null);
 
@@ -87,7 +87,7 @@ public abstract class AbstractClientPlayerEntityMixin {
         DynamicSkins.dynamicSkinsError = error;
       }
 
-      Context.exit();
+      // Context.exit();
     }
 
     return original.call();

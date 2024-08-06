@@ -27,7 +27,8 @@
     "fabricloader": ">=0.15.11",
     "minecraft": "~1.20.1",
     "java": ">=17",
-    "fabric-api": "*"
+    "fabric-api": "*",
+    "rhino": "2001.2.2-build.18"
   },
   "suggests": {
     "modmenu": ">=7.2.2"

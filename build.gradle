@@ -13,6 +13,12 @@ base {
 repositories {
 	mavenCentral()
 	maven { url "https://maven.terraformersmc.com/releases/" }
+	maven {
+		url "https://maven.latvian.dev/releases"
+		content {
+			includeGroup "dev.latvian.mods"
+		}
+	}
 }
 
 loom {
@@ -41,7 +47,7 @@ dependencies {
 	include(implementation(annotationProcessor("io.github.llamalad7:mixinextras-fabric:0.4.0")))
 
 	// Rhino
-	implementation "org.mozilla:rhino:${project.rhino_version}"
+	modImplementation "dev.latvian.mods:rhino:${project.rhino_version}"
 
 	// Mod Menu
 	modImplementation "com.terraformersmc:modmenu:${project.modmenu_version}"
@@ -49,7 +55,6 @@ dependencies {
 	// JSON
 	implementation "org.json:json:${project.json_version}"
 
-	distribute "org.mozilla:rhino:${project.rhino_version}"
 	distribute "org.json:json:${project.json_version}"
 }
 
